@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,11 +20,14 @@ public class Executor {
     private final String captureIdentifier = "^[A-Za-z][A-Za-z0-9_]*$";
     private String capture;
 
+    private TabelaSimbolosLinguagem tabelaLinguagem = new TabelaSimbolosLinguagem();
+
     private BufferedReader reader;
     private ArrayList<String> bufferPrimario;
     private ArrayList<String> bufferSecundario;
+    
+    private Map<String, Token> tabelaSimbolosPrograma = new HashMap<>();
 
-    private HashMap<String, Token> tabelaSimbolosPrograma;
 
     private boolean IsNumber(String valor)
     {
@@ -155,15 +159,41 @@ public class Executor {
         System.out.println("----------------------------------------");        
     }
 
-    public void AnalisarMontandoTabelaSimbolos(){
-        //AQUI É QUE ENTRA O TRABALHO DE VCS.
-        //1 - Precisa da Tabela de Simbolos do programa.
-        //2 - Precisa da Tabela de Simbolos da linguagem.
-        //3 - Precisa varrer o buffer secundário, para localizar os tokens, definindo o que é cada um dos lexemas.
+    public void AnalisarMontandoTabelaSimbolos() {
+        for (String lexema : bufferSecundario) {
+            if (tabelaLinguagem.getTabela().containsKey(lexema)) {
+                // Obtendo o token da tabela de símbolos da linguagem
+                Token token = tabelaLinguagem.getTabela().get(lexema);
+                tabelaSimbolosPrograma.put(lexema, token);
+            } else if (IsIdentifier(lexema)) {
+                // Criando um novo token para identificador
+                Token token = new Token("T001", lexema, "IDENTIFICADOR", "Identificador", 0);
+                tabelaSimbolosPrograma.put(lexema, token);
+            } else if (IsNumber(lexema)) {
+                // Criando um novo token para número
+                Token token = new Token("T002", lexema, "NUMERO", "Número", 0);
+                tabelaSimbolosPrograma.put(lexema, token);
+            } else if (IsLiteral(lexema)) {
+                // Criando um novo token para literal
+                Token token = new Token("T003", lexema, "LITERAL", "Literal", 0);
+                tabelaSimbolosPrograma.put(lexema, token);
+            } else if (IsCharacter(lexema)) {
+                // Criando um novo token para literal
+                Token token = new Token("T003", lexema, "LITERAL", "Literal", 0);
+                tabelaSimbolosPrograma.put(lexema, token);
+            }
+        }
     }
+    
 
-    public void ImprimirTabelaSimbolosPrograma(){
-        //A parte final, na qual vc imprime todas as entradas da Tabela de Simbolos do programa, após o processamento.
+    public void ImprimirTabelaSimbolosPrograma() {
+        System.out.println("----------------------------------------");
+        System.out.println("##### Tabela de Símbolos do Programa: #####");
+        for (Map.Entry<String, Token> entry : tabelaSimbolosPrograma.entrySet()) {
+            String lexema = entry.getKey();
+            Token token = entry.getValue();
+            System.out.println("Lexema: " + lexema + " -> Tipo: " + token.getTipo());
+        }
     }
 
 }
