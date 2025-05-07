@@ -163,29 +163,23 @@ public class Executor {
     public void AnalisarMontandoTabelaSimbolos() {
         for (String lexema : bufferSecundario) {
             if (tabelaLinguagem.getTabela().containsKey(lexema)) {
-                // Obtendo o token da tabela de símbolos da linguagem
                 Token token = tabelaLinguagem.getTabela().get(lexema);
                 tabelaSimbolosPrograma.put(lexema, token);
             } else if (IsIdentifier(lexema)) {
-                // Criando um novo token para identificador
                 Token token = new Token("_IDENTIFIER", lexema, "IDENTIFICADOR", "Variavel ou Constante", enderecoAtual++);
                 tabelaSimbolosPrograma.put(lexema, token);
             } else if (IsNumber(lexema)) {
-                // Criando um novo token para número
                 Token token = new Token("_NUMBER", lexema, "NUMERO", "Número", enderecoAtual++);
                 tabelaSimbolosPrograma.put(lexema, token);
             } else if (IsLiteral(lexema)) {
-                // Criando um novo token para literal
                 Token token = new Token("_LITERAL", lexema, "LITERAL", "Literal", enderecoAtual++);
                 tabelaSimbolosPrograma.put(lexema, token);
             } else if (IsCharacter(lexema)) {
-                // Criando um novo token para literal
                 Token token = new Token("_CARACTER", lexema, "CARACTER", "Caracter", enderecoAtual++);
                 tabelaSimbolosPrograma.put(lexema, token);
             }
         }
     }
-    
 
     public void ImprimirTabelaSimbolosPrograma() {
         System.out.println("----------------------------------------");
@@ -193,8 +187,11 @@ public class Executor {
         for (HashMap.Entry<String, Token> entry : tabelaSimbolosPrograma.entrySet()) {
             String lexema = entry.getKey();
             Token token = entry.getValue();
-            System.out.println("Token: " + token.getToken() + " >> Lexema: " + lexema + "; >> Tipo: " + token.getTipo() + "; >> Descrição: " + token.getDescricao() + " >> Endereço: " + token.getEndereco());
+            System.out.println("Token: " + token.getToken() + 
+                               " >> Lexema: " + lexema + 
+                               "; >> Tipo: " + token.getTipo() + 
+                               "; >> Descrição: " + token.getDescricao() + 
+                               " >> Endereço: " + token.getEndereco());
         }
     }
-
 }
