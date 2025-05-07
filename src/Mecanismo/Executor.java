@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +18,8 @@ public class Executor {
     private final String captureCharacters = "(?::=|>=|<=|<>|>|<|=|\\+|\\-|\\*|\\/|[:;,.()\\[\\]{}])";
     private final String captureIdentifier = "^[A-Za-z][A-Za-z0-9_]*$";
     private String capture;
+    private int enderecoAtual = 0;
+
 
     private TabelaSimbolosLinguagem tabelaLinguagem = new TabelaSimbolosLinguagem();
 
@@ -26,7 +27,7 @@ public class Executor {
     private ArrayList<String> bufferPrimario;
     private ArrayList<String> bufferSecundario;
     
-    private Map<String, Token> tabelaSimbolosPrograma = new HashMap<>();
+    private HashMap<String, Token> tabelaSimbolosPrograma = new HashMap<>();
 
 
     private boolean IsNumber(String valor)
@@ -167,19 +168,19 @@ public class Executor {
                 tabelaSimbolosPrograma.put(lexema, token);
             } else if (IsIdentifier(lexema)) {
                 // Criando um novo token para identificador
-                Token token = new Token("T001", lexema, "IDENTIFICADOR", "Identificador", 0);
+                Token token = new Token("_IDENTIFIER", lexema, "IDENTIFICADOR", "Variavel ou Constante", enderecoAtual++);
                 tabelaSimbolosPrograma.put(lexema, token);
             } else if (IsNumber(lexema)) {
                 // Criando um novo token para número
-                Token token = new Token("T002", lexema, "NUMERO", "Número", 0);
+                Token token = new Token("_NUMBER", lexema, "NUMERO", "Número", enderecoAtual++);
                 tabelaSimbolosPrograma.put(lexema, token);
             } else if (IsLiteral(lexema)) {
                 // Criando um novo token para literal
-                Token token = new Token("T003", lexema, "LITERAL", "Literal", 0);
+                Token token = new Token("_LITERAL", lexema, "LITERAL", "Literal", enderecoAtual++);
                 tabelaSimbolosPrograma.put(lexema, token);
             } else if (IsCharacter(lexema)) {
                 // Criando um novo token para literal
-                Token token = new Token("T003", lexema, "LITERAL", "Literal", 0);
+                Token token = new Token("_CARACTER", lexema, "CARACTER", "Caracter", enderecoAtual++);
                 tabelaSimbolosPrograma.put(lexema, token);
             }
         }
@@ -189,10 +190,10 @@ public class Executor {
     public void ImprimirTabelaSimbolosPrograma() {
         System.out.println("----------------------------------------");
         System.out.println("##### Tabela de Símbolos do Programa: #####");
-        for (Map.Entry<String, Token> entry : tabelaSimbolosPrograma.entrySet()) {
+        for (HashMap.Entry<String, Token> entry : tabelaSimbolosPrograma.entrySet()) {
             String lexema = entry.getKey();
             Token token = entry.getValue();
-            System.out.println("Lexema: " + lexema + " -> Tipo: " + token.getTipo());
+            System.out.println("Token: " + token.getToken() + " >> Lexema: " + lexema + "; >> Tipo: " + token.getTipo() + "; >> Descrição: " + token.getDescricao() + " >> Endereço: " + token.getEndereco());
         }
     }
 
