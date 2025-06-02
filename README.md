@@ -1,7 +1,9 @@
-Analisador Léxico para Código Pascal em Java 🧩
+# Analisador Léxico para Código Pascal em Java 🧩
 
 Programa em Java que realiza a fase de análise léxica do processo de compilação para códigos escritos em Pascal.
 Descrição do projeto
+
+## Descrição
 
 A análise léxica é a primeira etapa do processo de compilação, onde o código fonte é lido e dividido em unidades básicas chamadas tokens.
 Este programa identifica tokens válidos do código Pascal, como palavras-chave, identificadores, operadores, números, símbolos e delimitadores, preparando o código para as fases seguintes da compilação.
@@ -25,22 +27,21 @@ Funcionalidades
 
     Tratamento básico de erros léxicos
 
-Tecnologias usadas
+### Como executar localmente
 
-    Linguagem Java
-
-Como executar localmente
-
-    Clone o repositório:
-
-git clone <URL-do-repositório>
+Clone o repositório:
 
 Compile o código:
 
-javac NomeDoArquivo.java
+    javac NomeDoArquivo.java
 
 Execute o programa:
 
-java NomeDaClassePrincipal
+    java NomeDaClassePrincipal
 
 Informe o arquivo Pascal ou insira o código para a análise léxica.
+
+
+### Tecnologias usadas
+
+    Linguagem Java
